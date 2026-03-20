@@ -44,7 +44,7 @@ section{padding:100px 60px;max-width:1200px;margin:0 auto}
 .section-label::before{content:'';display:inline-block;width:20px;height:1px;background:var(--accent)}
 h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(32px,5vw,52px);letter-spacing:-1.5px;line-height:1.05;margin-bottom:48px}
 h2 em{font-style:italic;font-family:'Newsreader',serif;color:var(--muted);font-weight:300}
-.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);;gap:1px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .skill-card{background:var(--card);padding:28px;transition:background 0.25s;position:relative;overflow:hidden}
 .skill-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
 .skill-card:hover{background:#161a1f}
@@ -97,15 +97,15 @@ h2 em{font-style:italic;font-family:'Newsreader',serif;color:var(--muted);font-w
 .edu-year{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent)}
 #contact{text-align:center;padding:120px 60px;position:relative}
 #contact::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(0,229,195,0.05),transparent);pointer-events:none}
-.contact-email{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(18px,3vw,38px);letter-spacing:-1px;color:var(--text);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:4px;display:inline-block;margin:24px 0 40px;transition:color 0.2s}
+.contact-email{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(13px,3vw,38px);letter-spacing:-1px;color:var(--text);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:4px;display:inline-block;margin:24px 0 40px;transition:color 0.2s;word-break:break-all;max-width:100%}
 .contact-email:hover{color:var(--accent)}
 .contact-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify-content:space-between;align-items:center}
 .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s}
 .reveal.visible{opacity:1;transform:translateY(0)}
-@media(max-width:1024px){.projects-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){nav{padding:16px 20px}.nav-links{display:none}#hero,section{padding:80px 20px}h1{letter-spacing:-2px}.projects-grid,.edu-grid{grid-template-columns:1fr}.hero-stats{gap:24px}footer{padding:20px;flex-direction:column;gap:6px;text-align:center}.divider{margin:0 20px}}
+@media(max-width:1024px){.projects-grid{grid-template-columns:1fr 1fr}.skills-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){nav{padding:16px 20px}.nav-links{display:none}#hero,section{padding:80px 20px}h1{letter-spacing:-2px}.projects-grid,.edu-grid,.skills-grid{grid-template-columns:1fr}.hero-stats{gap:24px}footer{padding:20px;flex-direction:column;gap:6px;text-align:center}.divider{margin:0 20px}.hero-inner{flex-direction:column!important}.hero-inner>div:last-child{order:-1;display:flex;justify-content:center;margin-bottom:32px}.hero-inner>div:last-child img{width:160px!important;height:160px!important}}
 </style>
 </head>
 <body>
