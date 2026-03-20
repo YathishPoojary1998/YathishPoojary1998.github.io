@@ -121,21 +121,29 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
 </nav>
 <section id="hero">
   <div class="hero-glow"></div>
-  <div class="hero-inner">
-    <div class="hero-tag">Senior Software Engineer &middot; NLP &amp; ML</div>
-    <h1>Yathish<br><em>Poojary</em></h1>
-    <p class="hero-desc">Building intelligent language systems for Indian languages. 3.6+ years specializing in Machine Translation, NLP, and deep learning at the intersection of AI and linguistic heritage.</p>
-    <div class="hero-cta">
-      <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary">Get in touch</a>
-      <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
-      <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
+  <div class="hero-inner" style="display:flex;align-items:center;gap:60px;flex-wrap:wrap">
+
+    <div style="flex:1;min-width:280px">
+      <div class="hero-tag">Senior Software Engineer &middot; NLP &amp; ML</div>
+      <h1>Yathish<br><em>Poojary</em></h1>
+      <p class="hero-desc">Senior Software Engineer with 3.6+ years of experience building transformer-based multilingual translation systems for Indian languages. Proven expertise in Machine Learning, Machine Translation, Natural Language Processing, and Deep Learning — deploying GPU-accelerated models, integrating Flask API pipelines, and contributing to government-backed language technology initiatives.</p>
+      <div class="hero-cta">
+        <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary">Get in touch</a>
+        <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
+        <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">3<span>.6+</span></div><div class="stat-label">Years Experience</div></div>
+        <div class="stat"><div class="stat-num">11<span>+</span></div><div class="stat-label">Publications</div></div>
+        <div class="stat"><div class="stat-num">1</div><div class="stat-label">Patent Filed</div></div>
+        <div class="stat"><div class="stat-num">20<span>+</span></div><div class="stat-label">GitHub Repos</div></div>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">3<span>.6+</span></div><div class="stat-label">Years Experience</div></div>
-      <div class="stat"><div class="stat-num">11<span>+</span></div><div class="stat-label">Publications</div></div>
-      <div class="stat"><div class="stat-num">1</div><div class="stat-label">Patent Filed</div></div>
-      <div class="stat"><div class="stat-num">20<span>+</span></div><div class="stat-label">GitHub Repos</div></div>
+
+    <div style="flex-shrink:0">
+      <img src="./img/profile.jpeg" alt="Yathish Poojary" style="width:260px;height:260px;border-radius:50%;object-fit:cover;border:3px solid #00e5c3;box-shadow:0 0 40px rgba(0,229,195,0.15)"/>
     </div>
+
   </div>
 </section>
 <div class="divider"></div>
@@ -143,8 +151,8 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
   <div class="section-label">What I work with</div>
   <h2>Technical <em>Expertise</em></h2>
   <div class="skills-grid reveal">
-    <div class="skill-card"><div class="skill-icon">&#129504;</div><div class="skill-title">NLP &amp; Machine Translation</div><div class="skill-tags"><span class="tag">mT5</span><span class="tag">IndicBERT</span><span class="tag">IndicTrans</span><span class="tag">XLM-RoBERTa</span><span class="tag">NLLB</span><span class="tag">Bhashaverse</span></div></div>
-    <div class="skill-card"><div class="skill-icon">&#9889;</div><div class="skill-title">Deep Learning Frameworks</div><div class="skill-tags"><span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">HuggingFace</span><span class="tag">GPU Training</span></div></div>
+    <div class="skill-card"><div class="skill-icon">&#129504;</div><div class="skill-title">NLP &amp; Machine Learning</div><div class="skill-tags"><span class="tag">mT5</span><span class="tag">IndicBERT</span><span class="tag">IndicTrans</span><span class="tag">XLM-RoBERTa</span><span class="tag">NLLB</span><span class="tag">Bhashaverse</span></div></div>
+    <div class="skill-card"><div class="skill-icon">&#9889;</div><div class="skill-title">Deep Learning Frameworks</div><div class="skill-tags"><span class="tag">PyTorch</span><span class="tag">Fairseq</span><span class="tag">Transformers</span><span class="tag">HuggingFace</span><span class="tag">GPU Training</span></div></div>
     <div class="skill-card"><div class="skill-icon">&#128013;</div><div class="skill-title">Languages &amp; Data</div><div class="skill-tags"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">HTML</span></div></div>
     <div class="skill-card"><div class="skill-icon">&#128268;</div><div class="skill-title">APIs &amp; Deployment</div><div class="skill-tags"><span class="tag">Flask</span><span class="tag">RESTful APIs</span><span class="tag">GPU Cloud</span><span class="tag">Ubuntu</span></div></div>
     <div class="skill-card"><div class="skill-icon">&#128202;</div><div class="skill-title">Metrics &amp; Visualization</div><div class="skill-tags"><span class="tag">BLEU</span><span class="tag">ChrF</span><span class="tag">TER</span><span class="tag">COMET</span><span class="tag">WandB</span><span class="tag">Matplotlib</span><span class="tag">LaTeX</span></div></div>
@@ -267,7 +275,7 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
     <div class="patent-desc">A novel system for automatically identifying and splitting Sandhi using computational techniques, aimed at enhancing linguistic analysis and language processing tools for Indian languages. Assignee: Manipal Academy of Higher Education.</div>
   </div>
   <div class="pub-list">
-    <div class="pub-item reveal"><div class="pub-year">arXiv</div><div><div class="pub-title">Multilingual NLP Research &mdash; Soham Bhattacharjee, Yathish Poojary et al.</div><div class="pub-venue">arxiv.org/abs/2509.19941</div></div></div>
+   <a href="https://arxiv.org/abs/2509.19941" target="_blank" class="pub-item reveal" style="text-decoration:none;color:inherit;cursor:pointer"><div class="pub-year">arXiv</div><div><div class="pub-title">CorIL: Towards Enriching Indian Language to Indian Language Parallel Corpora and Machine Translation Systems</div><div class="pub-venue">Soham Bhattacharjee, Yathish Poojary et al. &middot; arxiv.org/abs/2509.19941</div></div></a>
     <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Evaluating Machine Translation Models: Kannada&ndash;Hindi and Hindi&ndash;Kannada Language Pair</div><div class="pub-venue">ICASET-2025, IFERP Academy, Chennai &middot; March 2025</div></div></div>
     <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Automated Categorization and Analysis of Kannada News Content using Transformers</div><div class="pub-venue">INCIP-2025, Manipal Institute of Technology &middot; Jan 2025</div></div></div>
     <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Translation Quality and Performance: Kannada&ndash;Tamil and Tamil&ndash;Kannada MT Models</div><div class="pub-venue">ICCIS 2025, BITS Pilani K.K. Birla Goa Campus &middot; Sept 2025</div></div></div>
@@ -297,7 +305,7 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
   <div class="contact-links">
     <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
     <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
-    <a href="tel:+918549022928" class="btn btn-ghost">+91 85490 22928</a>
+    <a href="tel:+918549022928" class="btn btn-ghost">Phone</a>
   </div>
 </section>
 <footer>
