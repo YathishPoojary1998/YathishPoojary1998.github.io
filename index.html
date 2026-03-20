@@ -106,9 +106,13 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
 .reveal.visible{opacity:1;transform:translateY(0)}
 @media(max-width:1024px){.projects-grid{grid-template-columns:1fr 1fr}.skills-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){nav{padding:16px 20px}.nav-links{display:none}#hero,section{padding:80px 20px}h1{letter-spacing:-2px}.projects-grid,.edu-grid,.skills-grid{grid-template-columns:1fr}.hero-stats{gap:24px}footer{padding:20px;flex-direction:column;gap:6px;text-align:center}.divider{margin:0 20px}.hero-inner{flex-direction:column!important}.hero-inner>div:last-child{order:-1;display:flex;justify-content:center;margin-bottom:32px}.hero-inner>div:last-child img{width:160px!important;height:160px!important}}
+.cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;mix-blend-mode:screen}
+.cursor-ring{width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s ease-out,width 0.3s,height 0.3s;opacity:0.5}
 </style>
 </head>
 <body>
+  <div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 <nav id="navbar">
   <a href="#hero" class="nav-logo">Y<span>.</span>Poojary</a>
   <ul class="nav-links">
@@ -318,6 +322,59 @@ var nav=document.getElementById('navbar');
 window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50)});
 var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+
+// Desktop cursor
+var cursor=document.getElementById('cursor');
+var ring=document.getElementById('cursorRing');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+document.querySelectorAll('a,button').forEach(function(el){el.addEventListener('mouseenter',function(){cursor.style.width='20px';cursor.style.height='20px'});el.addEventListener('mouseleave',function(){cursor.style.width='10px';cursor.style.height='10px'})});
+
+// Mobile touch cursor
+var touchCursor=null;
+document.addEventListener('touchstart',function(e){
+  var t=e.touches[0];
+  if(!touchCursor){
+    touchCursor=document.createElement('div');
+    touchCursor.style.cssText='position:fixed;width:10px;height:10px;background:#00e5c3;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:10000;opacity:0;mix-blend-mode:screen;transition:opacity 0.4s';
+    var tr=document.createElement('div');
+    tr.id='touchRing';
+    tr.style.cssText='position:fixed;width:36px;height:36px;border:1px solid #00e5c3;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:9998;opacity:0;transition:opacity 0.4s';
+    document.body.appendChild(touchCursor);
+    document.body.appendChild(tr);
+  }
+  tdx=t.clientX;tdy=t.clientY;trx=t.clientX;try_=t.clientY;
+  touchCursor.style.left=tdx+'px';touchCursor.style.top=tdy+'px';
+  touchCursor.style.opacity='0.9';
+  var touchRing=document.getElementById('touchRing');
+  touchRing.style.left=tdx+'px';touchRing.style.top=tdy+'px';
+  touchRing.style.opacity='0.5';
+  clearTimeout(touchTimer);
+},{passive:true});
+
+var trx=0,try_=0,tdx=0,tdy=0,touchTimer;
+document.addEventListener('touchmove',function(e){
+  var t=e.touches[0];
+  tdx=t.clientX;tdy=t.clientY;
+  if(touchCursor){touchCursor.style.left=tdx+'px';touchCursor.style.top=tdy+'px'}
+},{passive:true});
+
+function animTouchRing(){
+  var tr=document.getElementById('touchRing');
+  if(tr){trx+=(tdx-trx)*0.14;try_+=(tdy-try_)*0.14;tr.style.left=trx+'px';tr.style.top=try_+'px'}
+  requestAnimationFrame(animTouchRing);
+}
+animTouchRing();
+
+document.addEventListener('touchend',function(){
+  touchTimer=setTimeout(function(){
+    if(touchCursor)touchCursor.style.opacity='0';
+    var tr=document.getElementById('touchRing');
+    if(tr)tr.style.opacity='0';
+  },800);
+});
 </script>
 </body>
 </html>
