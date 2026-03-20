@@ -109,7 +109,17 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
 .cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;mix-blend-mode:screen}
 .cursor-ring{width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s ease-out,width 0.3s,height 0.3s;opacity:0.5}
 @media(hover:none){.cursor,.cursor-ring{display:none}}
-</style>
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(11,13,15,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:20px;z-index:99;flex-direction:column;gap:0}
+.mobile-menu a{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:14px 0;border-bottom:1px solid var(--border);transition:color 0.2s}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu a:hover{color:var(--accent)}
+.mobile-menu.open{display:flex}
+@media(max-width:640px){.hamburger{display:flex}}</style>
 </head>
 <body>
   <div class="cursor" id="cursor"></div>
@@ -123,7 +133,17 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
     <li><a href="#publications">Research</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#skills" onclick="closeMenu()">Skills</a>
+  <a href="#experience" onclick="closeMenu()">Experience</a>
+  <a href="#projects" onclick="closeMenu()">Projects</a>
+  <a href="#publications" onclick="closeMenu()">Research</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
 <section id="hero">
   <div class="hero-glow"></div>
   <div class="hero-inner" style="display:flex;align-items:center;gap:60px;flex-wrap:wrap">
@@ -319,6 +339,14 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
   <div class="footer-text">Udupi, Karnataka, India</div>
 </footer>
 <script>
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+}
 var nav=document.getElementById('navbar');
 window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50)});
 var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08});
