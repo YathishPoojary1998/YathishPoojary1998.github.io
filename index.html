@@ -1,652 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yathish Poojary — NLP & ML Engineer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0b0d0f;
-      --surface: #111417;
-      --border: #1e2228;
-      --accent: #00e5c3;
-      --accent2: #ff6b35;
-      --text: #e8eaed;
-      --muted: #6b7280;
-      --card: #13161a;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Newsreader', Georgia, serif;
-      font-size: 17px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* ─── NOISE OVERLAY ─── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    /* ─── CURSOR ─── */
-    .cursor {
-      width: 10px; height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 10000;
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s, width 0.2s, height 0.2s, background 0.2s;
-      mix-blend-mode: screen;
-    }
-    .cursor-ring {
-      width: 36px; height: 36px;
-      border: 1px solid var(--accent);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.18s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
-      opacity: 0.5;
-    }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 20px 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s, background 0.3s, backdrop-filter 0.3s;
-    }
-    nav.scrolled {
-      border-color: var(--border);
-      background: rgba(11,13,15,0.85);
-      backdrop-filter: blur(20px);
-    }
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: -0.5px;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
-
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 120px 60px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Animated grid background */
-    #hero::after {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,195,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,195,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
-      animation: gridPulse 8s ease-in-out infinite;
-    }
-
-    @keyframes gridPulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-      width: 100%;
-    }
-
-    .hero-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.2s forwards;
-    }
-    .hero-tag::before {
-      content: '';
-      display: inline-block;
-      width: 32px; height: 1px;
-      background: var(--accent);
-    }
-
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(52px, 9vw, 110px);
-      line-height: 0.95;
-      letter-spacing: -3px;
-      color: var(--text);
-      opacity: 0;
-      animation: fadeUp 0.7s 0.35s forwards;
-    }
-    h1 em {
-      font-style: italic;
-      font-family: 'Newsreader', serif;
-      color: var(--accent);
-      font-weight: 300;
-    }
-
-    .hero-desc {
-      margin-top: 32px;
-      max-width: 520px;
-      font-size: 18px;
-      color: var(--muted);
-      line-height: 1.65;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.5s forwards;
-    }
-
-    .hero-cta {
-      margin-top: 48px;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.65s forwards;
-    }
-    .btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      letter-spacing: 0.05em;
-      padding: 14px 28px;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: all 0.25s;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      font-weight: 400;
-      border: 1px solid var(--accent);
-    }
-    .btn-primary:hover {
-      background: transparent;
-      color: var(--accent);
-    }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .hero-stats {
-      margin-top: 72px;
-      display: flex;
-      gap: 48px;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.8s forwards;
-    }
-    .stat { }
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 36px;
-      color: var(--text);
-      line-height: 1;
-    }
-    .stat-num span { color: var(--accent); }
-    .stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Floating accent shape */
-    .hero-glow {
-      position: absolute;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,229,195,0.08) 0%, transparent 70%);
-      top: -100px; right: -100px;
-      pointer-events: none;
-      animation: float 10s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-20px, 30px); }
-    }
-
-    /* ─── SECTIONS ─── */
-    section {
-      padding: 100px 60px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-label::before {
-      content: '';
-      display: inline-block;
-      width: 20px; height: 1px;
-      background: var(--accent);
-    }
-
-    h2 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: clamp(32px, 5vw, 52px);
-      letter-spacing: -1.5px;
-      line-height: 1.05;
-      color: var(--text);
-      margin-bottom: 48px;
-    }
-    h2 em {
-      font-style: italic;
-      font-family: 'Newsreader', serif;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    /* ─── SKILLS ─── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .skill-card {
-      background: var(--card);
-      padding: 28px;
-      transition: background 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-    .skill-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-    .skill-card:hover { background: #161a1f; }
-    .skill-card:hover::after { transform: scaleX(1); }
-
-    .skill-icon {
-      font-size: 22px;
-      margin-bottom: 12px;
-    }
-    .skill-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.02em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      padding: 3px 9px;
-      border-radius: 2px;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      transition: all 0.2s;
-    }
-    .skill-card:hover .tag {
-      border-color: rgba(0,229,195,0.3);
-      color: var(--accent);
-    }
-
-    /* ─── EXPERIENCE ─── */
-    .timeline {
-      position: relative;
-      padding-left: 36px;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 8px; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--accent), transparent);
-    }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 56px;
-      opacity: 0;
-      transform: translateX(-12px);
-      transition: opacity 0.6s, transform 0.6s;
-    }
-    .timeline-item.visible { opacity: 1; transform: translateX(0); }
-    .timeline-dot {
-      position: absolute;
-      left: -40px;
-      top: 6px;
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(0,229,195,0.15);
-    }
-    .timeline-period {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .timeline-role {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 22px;
-      letter-spacing: -0.5px;
-      color: var(--text);
-    }
-    .timeline-org {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-    .timeline-body { color: #9ca3af; font-size: 16px; }
-    .timeline-body ul { padding-left: 20px; }
-    .timeline-body li { margin-bottom: 6px; }
-
-    /* ─── PROJECTS ─── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .project-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 32px;
-      transition: border-color 0.25s, transform 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,229,195,0.03), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .project-card:hover {
-      border-color: rgba(0,229,195,0.4);
-      transform: translateY(-3px);
-    }
-    .project-card:hover::before { opacity: 1; }
-    .project-number {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--accent);
-      margin-bottom: 14px;
-    }
-    .project-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: -0.3px;
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-    .project-desc { font-size: 15px; color: var(--muted); line-height: 1.6; }
-
-    /* ─── PUBLICATIONS ─── */
-    .pub-list { display: flex; flex-direction: column; gap: 20px; }
-    .pub-item {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 24px 28px;
-      transition: border-color 0.2s;
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.5s, transform 0.5s, border-color 0.2s;
-    }
-    .pub-item.visible { opacity: 1; transform: translateY(0); }
-    .pub-item:hover { border-color: rgba(0,229,195,0.3); }
-    .pub-year {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--accent);
-      white-space: nowrap;
-      padding-top: 3px;
-    }
-    .pub-body {}
-    .pub-title {
-      font-family: 'Newsreader', serif;
-      font-style: italic;
-      font-size: 17px;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-    .pub-venue {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* ─── PATENT ─── */
-    .patent-card {
-      background: linear-gradient(135deg, #0f1a18, #0b0d0f);
-      border: 1px solid rgba(0,229,195,0.2);
-      border-radius: 10px;
-      padding: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-    .patent-card::after {
-      content: 'PATENT';
-      position: absolute;
-      right: -28px; top: 28px;
-      font-family: 'Syne', sans-serif;
-      font-size: 80px;
-      font-weight: 800;
-      color: rgba(0,229,195,0.04);
-      transform: rotate(90deg);
-      pointer-events: none;
-    }
-    .patent-number {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      margin-bottom: 12px;
-    }
-    .patent-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 24px;
-      letter-spacing: -0.5px;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-    .patent-desc { font-size: 16px; color: var(--muted); max-width: 640px; }
-
-    /* ─── EDUCATION ─── */
-    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .edu-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 28px;
-      transition: border-color 0.2s;
-    }
-    .edu-card:hover { border-color: rgba(0,229,195,0.3); }
-    .edu-degree {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 17px;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-    .edu-school { font-size: 15px; color: var(--muted); margin-bottom: 4px; }
-    .edu-year {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--accent);
-    }
-
-    /* ─── CONTACT ─── */
-    #contact {
-      text-align: center;
-      padding: 120px 60px;
-      position: relative;
-    }
-    #contact::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,229,195,0.05), transparent);
-      pointer-events: none;
-    }
-    .contact-email {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(24px, 4vw, 48px);
-      letter-spacing: -1.5px;
-      color: var(--text);
-      text-decoration: none;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 4px;
-      transition: color 0.2s;
-      display: inline-block;
-      margin: 24px 0 40px;
-    }
-    .contact-email:hover { color: var(--accent); }
-    .contact-links {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* ─── FOOTER ─── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-text {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* ─── DIVIDER ─── */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 0 60px;
-    }
-
-    /* ─── SCROLL ANIMATIONS ─── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s, transform 0.7s;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      nav { padding: 16px 24px; }
-      .nav-links { display: none; }
-      #hero, section { padding: 80px 24px; }
-      h1 { letter-spacing: -2px; }
-      .projects-grid, .edu-grid { grid-template-columns: 1fr; }
-      .hero-stats { gap: 28px; flex-wrap: wrap; }
-      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
-      .divider { margin: 0 24px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yathish Poojary - NLP and ML Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0b0d0f;--border:#1e2228;--accent:#00e5c3;--text:#e8eaed;--muted:#6b7280;--card:#13161a}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.7;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid transparent;transition:border-color 0.3s,background 0.3s}
+nav.scrolled{border-color:var(--border);background:rgba(11,13,15,0.93);backdrop-filter:blur(20px)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--text);text-decoration:none}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--accent)}
+#hero{min-height:100vh;display:flex;align-items:center;padding:120px 60px 80px;position:relative;overflow:hidden}
+#hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,195,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,195,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 30%,transparent 80%);pointer-events:none}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,195,0.07) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;animation:float 10s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,30px)}}
+.hero-inner{position:relative;z-index:2;max-width:900px;width:100%}
+.hero-tag{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:12px;animation:fadeUp 0.7s 0.2s both}
+.hero-tag::before{content:'';display:inline-block;width:32px;height:1px;background:var(--accent)}
+h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(52px,9vw,110px);line-height:0.95;letter-spacing:-3px;animation:fadeUp 0.7s 0.35s both}
+h1 em{font-style:italic;font-family:'Newsreader',serif;color:var(--accent);font-weight:300}
+.hero-desc{margin-top:32px;max-width:520px;font-size:18px;color:var(--muted);animation:fadeUp 0.7s 0.5s both}
+.hero-cta{margin-top:48px;display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp 0.7s 0.65s both}
+.hero-stats{margin-top:72px;display:flex;gap:48px;flex-wrap:wrap;animation:fadeUp 0.7s 0.8s both}
+.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:36px;line-height:1}
+.stat-num span{color:var(--accent)}
+.stat-label{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-top:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.btn{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.05em;padding:13px 26px;border-radius:4px;text-decoration:none;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--accent);color:#000;border:1px solid var(--accent)}
+.btn-primary:hover{background:transparent;color:var(--accent)}
+.btn-ghost{background:var(--accent);color:#000;border:1px solid var(--accent)}
+.btn-ghost:hover{background:transparent;color:var(--accent)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 60px}
+section{padding:100px 60px;max-width:1200px;margin:0 auto}
+.section-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';display:inline-block;width:20px;height:1px;background:var(--accent)}
+h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(32px,5vw,52px);letter-spacing:-1.5px;line-height:1.05;margin-bottom:48px}
+h2 em{font-style:italic;font-family:'Newsreader',serif;color:var(--muted);font-weight:300}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);;gap:1px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.skill-card{background:var(--card);padding:28px;transition:background 0.25s;position:relative;overflow:hidden}
+.skill-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.skill-card:hover{background:#161a1f}
+.skill-card:hover::after{transform:scaleX(1)}
+.skill-icon{font-size:22px;margin-bottom:12px}
+.skill-title{font-family:'Syne',sans-serif;font-weight:600;font-size:14px;color:var(--text);margin-bottom:10px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:'DM Mono',monospace;font-size:10px;padding:3px 9px;border-radius:2px;border:1px solid var(--border);color:var(--muted);transition:all 0.2s}
+.skill-card:hover .tag{border-color:rgba(0,229,195,0.3);color:var(--accent)}
+.timeline{position:relative;padding-left:36px}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),transparent)}
+.timeline-item{position:relative;margin-bottom:56px}
+.timeline-dot{position:absolute;left:-40px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(0,229,195,0.15)}
+.timeline-period{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.timeline-role{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.5px}
+.timeline-org{font-size:15px;color:var(--muted);margin-bottom:16px}
+.timeline-body{color:#9ca3af;font-size:16px}
+.timeline-body ul{padding-left:20px}
+.timeline-body li{margin-bottom:6px}
+.project-category{margin-bottom:56px}
+.category-header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.category-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,229,195,0.3);padding:4px 12px;border-radius:2px}
+.category-line{flex:1;height:1px;background:var(--border)}
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px;transition:border-color 0.25s,transform 0.25s;display:flex;flex-direction:column}
+.project-card:hover{border-color:rgba(0,229,195,0.4);transform:translateY(-3px)}
+.project-lang{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.lang-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);opacity:0.6;flex-shrink:0}
+.lang-dot-yellow{width:8px;height:8px;border-radius:50%;background:#f59e0b;opacity:0.6;flex-shrink:0}
+.project-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;letter-spacing:-0.2px;margin-bottom:8px}
+.project-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
+.project-link{margin-top:16px}
+.btn-sm{font-family:'DM Mono',monospace;font-size:11px;padding:6px 14px;border-radius:3px;text-decoration:none;border:1px solid var(--border);color:var(--muted);transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
+.btn-sm:hover{border-color:var(--accent);color:var(--accent)}
+.pub-list{display:flex;flex-direction:column;gap:16px}
+.pub-item{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:22px 26px;display:flex;gap:20px;align-items:flex-start;transition:border-color 0.2s}
+.pub-item:hover{border-color:rgba(0,229,195,0.3)}
+.pub-year{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);white-space:nowrap;padding-top:3px;min-width:44px}
+.pub-title{font-family:'Newsreader',serif;font-style:italic;font-size:16px;margin-bottom:5px}
+.pub-venue{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+.patent-card{background:linear-gradient(135deg,#0f1a18,#0b0d0f);border:1px solid rgba(0,229,195,0.2);border-radius:10px;padding:36px;margin-bottom:40px;position:relative;overflow:hidden}
+.patent-number{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:10px}
+.patent-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.5px;margin-bottom:12px}
+.patent-desc{font-size:15px;color:var(--muted);max-width:640px}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.edu-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:28px;transition:border-color 0.2s}
+.edu-card:hover{border-color:rgba(0,229,195,0.3)}
+.edu-degree{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:6px}
+.edu-school{font-size:15px;color:var(--muted);margin-bottom:4px}
+.edu-year{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent)}
+#contact{text-align:center;padding:120px 60px;position:relative}
+#contact::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(0,229,195,0.05),transparent);pointer-events:none}
+.contact-email{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(18px,3vw,38px);letter-spacing:-1px;color:var(--text);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:4px;display:inline-block;margin:24px 0 40px;transition:color 0.2s}
+.contact-email:hover{color:var(--accent)}
+.contact-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify-content:space-between;align-items:center}
+.footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:1024px){.projects-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){nav{padding:16px 20px}.nav-links{display:none}#hero,section{padding:80px 20px}h1{letter-spacing:-2px}.projects-grid,.edu-grid{grid-template-columns:1fr}.hero-stats{gap:24px}footer{padding:20px;flex-direction:column;gap:6px;text-align:center}.divider{margin:0 20px}}
+</style>
 </head>
 <body>
-
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Nav -->
 <nav id="navbar">
   <a href="#hero" class="nav-logo">Y<span>.</span>Poojary</a>
   <ul class="nav-links">
@@ -657,314 +119,196 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
-
-<!-- Hero -->
 <section id="hero">
   <div class="hero-glow"></div>
   <div class="hero-inner">
-    <div class="hero-tag">Senior Software Engineer · NLP & ML</div>
+    <div class="hero-tag">Senior Software Engineer &middot; NLP &amp; ML</div>
     <h1>Yathish<br><em>Poojary</em></h1>
-    <p class="hero-desc">
-      Building intelligent language systems for Indian languages. 
-      3.5+ years specializing in Machine Translation, NLP, and deep learning 
-      at the intersection of AI and linguistic heritage.
-    </p>
+    <p class="hero-desc">Building intelligent language systems for Indian languages. 3.6+ years specializing in Machine Translation, NLP, and deep learning at the intersection of AI and linguistic heritage.</p>
     <div class="hero-cta">
-      <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary">Get in touch ↗</a>
-      <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub →</a>
-      <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn →</a>
+      <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary">Get in touch</a>
+      <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
+      <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
     </div>
     <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">3<span>.5+</span></div>
-        <div class="stat-label">Years Experience</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">6<span>+</span></div>
-        <div class="stat-label">Publications</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">1</div>
-        <div class="stat-label">Patent Filed</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">5<span>+</span></div>
-        <div class="stat-label">Language Pairs</div>
-      </div>
+      <div class="stat"><div class="stat-num">3<span>.5+</span></div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">11<span>+</span></div><div class="stat-label">Publications</div></div>
+      <div class="stat"><div class="stat-num">1</div><div class="stat-label">Patent Filed</div></div>
+      <div class="stat"><div class="stat-num">20<span>+</span></div><div class="stat-label">GitHub Repos</div></div>
     </div>
   </div>
 </section>
-
 <div class="divider"></div>
-
-<!-- Skills -->
 <section id="skills">
   <div class="section-label">What I work with</div>
   <h2>Technical <em>Expertise</em></h2>
   <div class="skills-grid reveal">
-    <div class="skill-card">
-      <div class="skill-icon">🧠</div>
-      <div class="skill-title">NLP & Machine Translation</div>
-      <div class="skill-tags">
-        <span class="tag">mT5</span>
-        <span class="tag">IndicBERT</span>
-        <span class="tag">IndicTrans</span>
-        <span class="tag">XLM-RoBERTa</span>
-        <span class="tag">NLLB</span>
-        <span class="tag">Bhashaverse</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">⚡</div>
-      <div class="skill-title">Deep Learning Frameworks</div>
-      <div class="skill-tags">
-        <span class="tag">PyTorch</span>
-        <span class="tag">Transformers</span>
-        <span class="tag">HuggingFace</span>
-        <span class="tag">GPU Training</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">🐍</div>
-      <div class="skill-title">Languages & Data</div>
-      <div class="skill-tags">
-        <span class="tag">Python</span>
-        <span class="tag">Pandas</span>
-        <span class="tag">HTML</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">🔌</div>
-      <div class="skill-title">APIs & Deployment</div>
-      <div class="skill-tags">
-        <span class="tag">Flask</span>
-        <span class="tag">RESTful APIs</span>
-        <span class="tag">GPU Cloud</span>
-        <span class="tag">Ubuntu</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">📊</div>
-      <div class="skill-title">Metrics & Visualization</div>
-      <div class="skill-tags">
-        <span class="tag">BLEU</span>
-        <span class="tag">COMET</span>
-        <span class="tag">WandB</span>
-        <span class="tag">Matplotlib</span>
-        <span class="tag">LaTeX</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">🌐</div>
-      <div class="skill-title">Indian Languages Focus</div>
-      <div class="skill-tags">
-        <span class="tag">Kannada</span>
-        <span class="tag">Hindi</span>
-        <span class="tag">Tamil</span>
-        <span class="tag">Tulu</span>
-        <span class="tag">Sanskrit</span>
-      </div>
-    </div>
+    <div class="skill-card"><div class="skill-icon">&#129504;</div><div class="skill-title">NLP &amp; Machine Translation</div><div class="skill-tags"><span class="tag">mT5</span><span class="tag">IndicBERT</span><span class="tag">IndicTrans</span><span class="tag">XLM-RoBERTa</span><span class="tag">NLLB</span><span class="tag">Bhashaverse</span></div></div>
+    <div class="skill-card"><div class="skill-icon">&#9889;</div><div class="skill-title">Deep Learning Frameworks</div><div class="skill-tags"><span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">HuggingFace</span><span class="tag">GPU Training</span></div></div>
+    <div class="skill-card"><div class="skill-icon">&#128013;</div><div class="skill-title">Languages &amp; Data</div><div class="skill-tags"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">HTML</span></div></div>
+    <div class="skill-card"><div class="skill-icon">&#128268;</div><div class="skill-title">APIs &amp; Deployment</div><div class="skill-tags"><span class="tag">Flask</span><span class="tag">RESTful APIs</span><span class="tag">GPU Cloud</span><span class="tag">Ubuntu</span></div></div>
+    <div class="skill-card"><div class="skill-icon">&#128202;</div><div class="skill-title">Metrics &amp; Visualization</div><div class="skill-tags"><span class="tag">BLEU</span><span class="tag">ChrF</span><span class="tag">TER</span><span class="tag">COMET</span><span class="tag">WandB</span><span class="tag">Matplotlib</span><span class="tag">LaTeX</span></div></div>
+    <div class="skill-card"><div class="skill-icon">&#127760;</div><div class="skill-title">Indian Languages</div><div class="skill-tags"><span class="tag">Kannada</span><span class="tag">Hindi</span><span class="tag">Tamil</span><span class="tag">Tulu</span><span class="tag">English</span></div></div>
   </div>
 </section>
-
 <div class="divider"></div>
-
-<!-- Experience -->
 <section id="experience">
   <div class="section-label">Career</div>
   <h2>Work <em>Experience</em></h2>
   <div class="timeline">
-
-    <div class="timeline-item">
+    <div class="timeline-item reveal">
       <div class="timeline-dot"></div>
-      <div class="timeline-period">09/2022 — Present</div>
+      <div class="timeline-period">09/2022 &mdash; Present</div>
       <div class="timeline-role">Senior Software Engineer</div>
-      <div class="timeline-org">Manipal Institute of Technology, Manipal, India</div>
+      <div class="timeline-org">Manipal Institute of Technology, Udupi, Karnataka</div>
       <div class="timeline-body">
-        <ul>
-          <li>Developed MT systems for Tamil–Kannada and Kannada–Tamil language pairs under a multilingual translation service.</li>
-          <li>Built and improved Text-to-Text (TTMT) translation pipelines for Indian language compatibility.</li>
-          <li>Created bidirectional MT systems for Hindi–Kannada and Kannada–Hindi using the IL-IL translation framework.</li>
-          <li>Trained transformer-based models leveraging GPU acceleration, reducing training time and enhancing translation quality.</li>
-          <li>Integrated MT systems into broader backend services via Flask APIs.</li>
-          <li>Contributed to government-supported MT initiatives through MeitY, including speech and text translation systems.</li>
-          <li>Technical mentoring of new engineers on project familiarization, business knowledge, and functional aspects.</li>
-        </ul>
+
+        <div style="margin-bottom:28px">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">Multilingual Machine Translation Systems (Tamil&ndash;Kannada, Hindi&ndash;Kannada)</div>
+          <ul>
+            <li>Designed and deployed transformer-based MT systems using <strong>Bhashaverse</strong>, <strong>IndicTrans</strong>, and <strong>NLLB</strong>, building scalable end-to-end Text-to-Text pipelines integrated via RESTful Flask APIs.</li>
+            <li>Optimized GPU-based training workflows and enhanced translation quality using <strong>BLEU</strong> and <strong>COMET</strong> metrics, contributing to government-supported MT initiatives under <strong>MeitY</strong>.</li>
+            <li>Built bidirectional MT systems for Tamil&ndash;Kannada, Kannada&ndash;Tamil, Hindi&ndash;Kannada, and Kannada&ndash;Hindi language pairs.</li>
+          </ul>
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#00e5c3;margin-top:10px">Python &middot; PyTorch &middot; HuggingFace Transformers &middot; Flask &middot; GPU</div>
+        </div>
+
+        <div style="margin-bottom:28px">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">POS &amp; Chunk Tagging for Kannada</div>
+          <ul>
+            <li>Developed transformer-based models for <strong>Part-of-Speech (POS) tagging</strong> and <strong>Chunk prediction</strong> for the Kannada language.</li>
+            <li>Implemented token classification pipelines using <strong>IndicBERT</strong> and <strong>XLM-RoBERTa</strong>, improving POS tagging accuracy from <strong>78% to 94.68%</strong> and Chunk tagging accuracy from <strong>76% to 95.66%</strong> through fine-tuning and model optimization.</li>
+          </ul>
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#00e5c3;margin-top:10px">Python &middot; PyTorch &middot; Transformers &middot; IndicBERT &middot; XLM-RoBERTa</div>
+        </div>
+
+        <div style="margin-bottom:28px">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">Kannada Sandhi Splitter <span style="font-family:'DM Mono',monospace;font-size:10px;color:#00e5c3;border:1px solid rgba(0,229,195,0.3);padding:2px 8px;border-radius:2px;margin-left:8px;font-weight:400">Patent Filed</span></div>
+          <ul>
+            <li>Built an automated <strong>Sandhi identification and splitting system</strong> for Kannada using computational linguistic techniques.</li>
+            <li>Designed rule-based and ML-assisted approaches, achieving <strong>100% accuracy</strong> in Sandhi identification.</li>
+            <li>Filed patent under <strong>Manipal Academy of Higher Education</strong> (Application No. 202341057920).</li>
+          </ul>
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:#00e5c3;margin-top:10px">Python &middot; NLP &middot; Rule-based + ML Methods</div>
+        </div>
+
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">Other Contributions</div>
+          <ul>
+            <li>Mentored junior engineers on ML model development, deployment practices, and project familiarization.</li>
+            <li>Actively developed open-source NLP utilities and contributed to government-backed language technology initiatives.</li>
+            <li>Co-authored 11+ research publications presented at international conferences and an arXiv paper.</li>
+          </ul>
+        </div>
+
       </div>
     </div>
-
   </div>
 </section>
-
 <div class="divider"></div>
-
-<!-- Projects -->
 <section id="projects">
-  <div class="section-label">What I've built</div>
-  <h2>Key <em>Projects</em></h2>
-  <div class="projects-grid">
-    <div class="project-card reveal">
-      <div class="project-number">01 — Dravidian MT</div>
-      <div class="project-title">Tamil ↔ Kannada Machine Translation</div>
-      <div class="project-desc">Bidirectional MT system for Dravidian language pairs, integrated into a multilingual translation service via Flask APIs on GPU-enabled environments.</div>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-number">02 — IL-IL Translation</div>
-      <div class="project-title">Hindi ↔ Kannada Machine Translation</div>
-      <div class="project-desc">Transformer-based bidirectional translation models for Hindi–Kannada integrated into a full Text-to-Text Machine Translation (TTMT) architecture.</div>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-number">03 — Sandhi Analyzer</div>
-      <div class="project-title">Automated Sandhi Identification & Splitting</div>
-      <div class="project-desc">Novel system for automatically identifying and splitting Sandhi — a phonological process in Indian languages — using computational techniques. Filed as a patent in 2023.</div>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-number">04 — Sentiment Analysis</div>
-      <div class="project-title">Kannada Sentiment Analysis</div>
-      <div class="project-desc">Transfer learning approach to Kannada sentiment analysis using IndicBERT and XLM-RoBERTa-Base, presented at ICONFEST 2025.</div>
+  <div class="section-label">Open Source</div>
+  <h2>GitHub <em>Projects</em></h2>
+  <div class="project-category reveal">
+    <div class="category-header"><span class="category-label">Machine Translation</span><div class="category-line"></div></div>
+    <div class="projects-grid">
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook</div><div class="project-title">Neural Machine Translation &mdash; Hindi</div><div class="project-desc">Deep learning model for bidirectional Hindi translation using neural networks, offering accurate and context-aware translations for Hindi and other languages.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Neural-Machine-Translation-Hindi" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook &middot; Shell</div><div class="project-title">Neural Machine Translation &mdash; Tamil</div><div class="project-desc">Deep learning model for Tamil translation using IndicTrans training pipeline with BPE tokenization, inference scripts, and Flask interface.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Neural-Machine-Translation-Tamil" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Language Translation Extensions</div><div class="project-desc">Browser or application extensions for language translation, enabling real-time translation capabilities for Indian language content across platforms.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Language-Translation-Extensions" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Google Cloud Translate &mdash; Batch Translation</div><div class="project-desc">Script for batch text translation using the Google Cloud Translate API, enabling efficient bulk translation of large datasets for NLP workflows.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Google-Cloud-Translate-API-Script-for-Batch-Text-Translation" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Batch Translation &mdash; Microsoft Translator API</div><div class="project-desc">Batch text translation tool using the Microsoft Translator API, designed for large-scale translation tasks in multilingual NLP research pipelines.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Batch-Text-Translation-Using-Microsoft-Translator-API" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
     </div>
   </div>
+  <div class="project-category reveal">
+    <div class="category-header"><span class="category-label">NLP Tools</span><div class="category-line"></div></div>
+    <div class="projects-grid">
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Jupyter Notebook</div><div class="project-title">BERT POS Tagger</div><div class="project-desc">Part-of-speech tagging tool using BERT to accurately predict grammatical categories of each word in a sentence using pre-trained BERT representations.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/BERT-POSTAGGER" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Kannada Sandhi Splitter Web</div><div class="project-desc">Web-based tool to split compound Sandhi words in Kannada into their original components using linguistic algorithms. Directly supports the filed patent.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-Sandhi-Splitter-Web" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Morph Tool</div><div class="project-desc">Linguistic morphological analyzer that identifies roots, prefixes, suffixes, and grammatical features of words across multiple Indian languages.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Morph-Tool" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Shallow Parser</div><div class="project-desc">Shallow parsing tool for chunking and identifying syntactic structure in sentences, useful for Indian language NLP preprocessing pipelines.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Shallow-Parser" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      
+    </div>
+  </div>
+  <div class="project-category reveal">
+    <div class="category-header"><span class="category-label">Encoding &amp; Conversion Tools</span><div class="category-line"></div></div>
+    <div class="projects-grid">
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Shreelipi to Unicode Kannada Converter</div><div class="project-desc">Converts Kannada text from legacy Shreelipi font encoding to Unicode, standardizing text for modern NLP pipelines and digital applications.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Shreelipi-to-Unicode-Kannada-Converter" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Unicode Kannada to Shreelipi Converter</div><div class="project-desc">Reverse conversion tool that converts Unicode Kannada text back to Shreelipi font encoding, supporting legacy document workflows and archival systems.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Unicode-Kannada-to-Shreelipi-Convertor" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+    </div>
+  </div>
+  <div class="project-category reveal">
+    <div class="category-header"><span class="category-label">APIs &amp; Web Scraping</span><div class="category-line"></div></div>
+    <div class="projects-grid">
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python &middot; Flask</div><div class="project-title">API for MITCSE Apps</div><div class="project-desc">Backend REST API built for MIT CSE department applications, providing endpoints that power NLP and language processing tools used across research projects.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Api_for_MITCSE_apps" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Kannada Dictionary Web Scraper</div><div class="project-desc">Web scraper for extracting Kannada dictionary data, useful for building linguistic datasets and language resources for NLP research.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-Dictionary-Web-Scraper" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Amazon Web Scraper</div><div class="project-desc">Web scraping tool for extracting product data from Amazon, demonstrating data collection and parsing skills using Python libraries.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Amazon-Webscrapping" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Job Scraper</div><div class="project-desc">Automated job listing scraper that collects and aggregates job postings from various sources, making job search data easily accessible and filterable.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Job-Scraper-main" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+    </div>
+  </div>
+  <div class="project-category reveal">
+    <div class="category-header"><span class="category-label">Games &amp; Fun Projects</span><div class="category-line"></div></div>
+    <div class="projects-grid">
+      <div class="project-card"><div class="project-lang"><span class="lang-dot-yellow"></span>Python &middot; Tkinter</div><div class="project-title">Snake Game</div><div class="project-desc">Classic Snake Game with Pause/Resume, score tracking, and a polished game-over menu, built using Python and Tkinter GUI.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Snake-Game-in-Python-using-Tkinter" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot-yellow"></span>Python &middot; Tkinter</div><div class="project-title">Simple Calculator</div><div class="project-desc">Clean and functional calculator application built with Python and Tkinter, featuring a polished UI for standard arithmetic operations.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Simple-Calculator-Using-Tkinter" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot-yellow"></span>Python</div><div class="project-title">Simple Cricket Game</div><div class="project-desc">A fun text-based cricket simulation game built in Python, demonstrating game logic, randomization, and interactive terminal-based gameplay.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Simple-Cricket-Game" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot-yellow"></span>Python</div><div class="project-title">Number Guessing Game</div><div class="project-desc">Interactive number guessing game with hints and score tracking, demonstrating core Python programming logic and user interaction.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Number-Guessing-Game" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-lang"><span class="lang-dot-yellow"></span>Python</div><div class="project-title">Tower of Hanoi</div><div class="project-desc">Visual implementation of the classic Tower of Hanoi puzzle in Python, demonstrating recursion and algorithmic thinking.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/TowerofHanoi" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:16px"><a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">View all repositories on GitHub</a></div>
 </section>
-
 <div class="divider"></div>
-
-<!-- Publications -->
 <section id="publications">
   <div class="section-label">Research</div>
   <h2>Publications <em>&amp; Patent</em></h2>
-
-  <!-- Patent -->
-  <div class="patent-card reveal" style="margin-bottom: 40px;">
-    <div class="patent-number">Application No. 202341057920 · Filed Aug 29, 2023</div>
+  <div class="patent-card reveal">
+    <div class="patent-number">Application No. 202341057920 &middot; Filed Aug 29, 2023</div>
     <div class="patent-title">System and Method for Automated Sandhi Identification and Splitting</div>
     <div class="patent-desc">A novel system for automatically identifying and splitting Sandhi using computational techniques, aimed at enhancing linguistic analysis and language processing tools for Indian languages. Assignee: Manipal Academy of Higher Education.</div>
   </div>
-
   <div class="pub-list">
-    <div class="pub-item">
-      <div class="pub-year">arXiv</div>
-      <div class="pub-body">
-        <div class="pub-title">Multilingual NLP Research (Soham Bhattacharjee, Yathish Poojary et al.)</div>
-        <div class="pub-venue">arxiv.org/abs/2509.19941</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <div class="pub-year">2025</div>
-      <div class="pub-body">
-        <div class="pub-title">Evaluating Machine Translation Models: Kannada–Hindi and Hindi–Kannada Language Pair</div>
-        <div class="pub-venue">ICASET-2025, IFERP Academy, Chennai · March 2025</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <div class="pub-year">2025</div>
-      <div class="pub-body">
-        <div class="pub-title">Translation Quality and Performance: Kannada–Tamil and Tamil–Kannada MT Models</div>
-        <div class="pub-venue">ICCIS 2025, BITS Pilani K.K. Birla Goa Campus · Sept 2025</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <div class="pub-year">2025</div>
-      <div class="pub-body">
-        <div class="pub-title">Machine Translation in Kannada–English and English–Kannada: Performance and Quality Assessment</div>
-        <div class="pub-venue">ICSISCET 2025, Madhav Institute of Technology & Science, Gwalior · Nov 2025</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <div class="pub-year">2025</div>
-      <div class="pub-body">
-        <div class="pub-title">Evaluating Translation Accuracy for Kannada–Tulu and Tulu–Kannada with Google Translate</div>
-        <div class="pub-venue">SSIC 2025, Manipal University Jaipur · Dec 2025</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <div class="pub-year">2025</div>
-      <div class="pub-body">
-        <div class="pub-title">A Transfer Learning Approach to Kannada Sentiment Analysis using IndicBERT and XLM-RoBERTa-Base</div>
-        <div class="pub-venue">ICONFEST 2025, JIS College of Engineering, Kalyani · Dec 2025</div>
-      </div>
-    </div>
-    <div class="pub-item">
-      <div class="pub-year">2025</div>
-      <div class="pub-body">
-        <div class="pub-title">Automated Categorization and Analysis of Kannada News Content using Transformers</div>
-        <div class="pub-venue">INCIP-2025, Manipal Institute of Technology · Jan 2025</div>
-      </div>
-    </div>
+    <div class="pub-item reveal"><div class="pub-year">arXiv</div><div><div class="pub-title">Multilingual NLP Research &mdash; Soham Bhattacharjee, Yathish Poojary et al.</div><div class="pub-venue">arxiv.org/abs/2509.19941</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Evaluating Machine Translation Models: Kannada&ndash;Hindi and Hindi&ndash;Kannada Language Pair</div><div class="pub-venue">ICASET-2025, IFERP Academy, Chennai &middot; March 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Automated Categorization and Analysis of Kannada News Content using Transformers</div><div class="pub-venue">INCIP-2025, Manipal Institute of Technology &middot; Jan 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Translation Quality and Performance: Kannada&ndash;Tamil and Tamil&ndash;Kannada MT Models</div><div class="pub-venue">ICCIS 2025, BITS Pilani K.K. Birla Goa Campus &middot; Sept 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Machine Translation in Kannada&ndash;English and English&ndash;Kannada: Performance and Quality Assessment</div><div class="pub-venue">ICSISCET 2025, Madhav Institute of Technology &amp; Science, Gwalior &middot; Nov 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Evaluating Translation Accuracy for Kannada&ndash;Tulu and Tulu&ndash;Kannada with Google Translate</div><div class="pub-venue">SSIC 2025, Manipal University Jaipur &middot; Dec 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">A Transfer Learning Approach to Kannada Sentiment Analysis using IndicBERT and XLM-RoBERTa-Base</div><div class="pub-venue">ICONFEST 2025, JIS College of Engineering, Kalyani &middot; Dec 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">A Comprehensive Guide to Identification of Kannada Idioms</div><div class="pub-venue">SSIC 2025, Manipal University, Jaipur &middot; Dec 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">A Transformer-Based Approach for Effective Chunk Tagging in Kannada</div><div class="pub-venue">CSCT 2025, National Institute of Technology, Sikkim &middot; Dec 2025</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2026</div><div><div class="pub-title">Kannada Spell Checker Using Natural Language Processing</div><div class="pub-venue">AI-HCSST 2026, ABV-IIITM Gwalior Campus, India &middot; March 2026</div></div></div>
+    <div class="pub-item reveal"><div class="pub-year">2026</div><div><div class="pub-title">Named Entity Recognition for Kannada Language using XLM-RoBERTa and IndicBERT</div><div class="pub-venue">AI-HCSST 2026, ABV-IIITM Gwalior Campus, India &middot; March 2026</div></div></div>
   </div>
 </section>
-
 <div class="divider"></div>
-
-<!-- Education -->
 <section id="education">
   <div class="section-label">Background</div>
   <h2><em>Education</em></h2>
   <div class="edu-grid reveal">
-    <div class="edu-card">
-      <div class="edu-degree">Master of Computer Application</div>
-      <div class="edu-school">NMAMIT, Nitte</div>
-      <div class="edu-year">2019 — 2022</div>
-    </div>
-    <div class="edu-card">
-      <div class="edu-degree">B.Sc. Mathematics & Statistics</div>
-      <div class="edu-school">Poorna Prajna College, Udupi</div>
-      <div class="edu-year">2016 — 2019</div>
-    </div>
+    <div class="edu-card"><div class="edu-degree">Master of Computer Application</div><div class="edu-school">NMAMIT, Nitte</div><div class="edu-year">2019 &mdash; 2022</div></div>
+    <div class="edu-card"><div class="edu-degree">B.Sc. Mathematics &amp; Statistics</div><div class="edu-school">Poorna Prajna College, Udupi</div><div class="edu-year">2016 &mdash; 2019</div></div>
   </div>
 </section>
-
 <div class="divider"></div>
-
-<!-- Contact -->
 <section id="contact">
-  <div class="section-label" style="justify-content: center;">Let's connect</div>
-  <h2 style="text-align:center; margin-bottom: 0;">Have a project<br><em>in mind?</em></h2>
-  <div>
-    <a href="mailto:yathishmajur.1998@gmail.com" class="contact-email">yathishmajur.1998@gmail.com</a>
-  </div>
+  <div class="section-label" style="justify-content:center">Let's connect</div>
+  <h2 style="margin-bottom:0">Have a project<br><em>in mind?</em></h2>
+  <div><a href="mailto:yathishmajur.1998@gmail.com" class="contact-email">yathishmajur.1998@gmail.com</a></div>
   <div class="contact-links">
-    <a href="https://github.com/" target="_blank" class="btn btn-ghost">GitHub ↗</a>
-    <a href="https://linkedin.com/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
-    <a href="tel:8549022928" class="btn btn-ghost">+91 85490 22928</a>
+    <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
+    <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
+    <a href="tel:+918549022928" class="btn btn-ghost">+91 85490 22928</a>
   </div>
 </section>
-
 <footer>
-  <div class="footer-text">© 2025 Yathish Poojary. Built with care.</div>
+  <div class="footer-text">&copy; 2025 Yathish Poojary. Built with care.</div>
   <div class="footer-text">Udupi, Karnataka, India</div>
 </footer>
-
 <script>
-  // Cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
-  function animRing() {
-    rx += (mx - rx) * 0.14;
-    ry += (my - ry) * 0.14;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animRing);
-  }
-  animRing();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; });
-    el.addEventListener('mouseleave', () => { cursor.style.width = '10px'; cursor.style.height = '10px'; });
-  });
-
-  // Nav scroll
-  const nav = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  });
-
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal, .timeline-item, .pub-item').forEach(el => observer.observe(el));
+var nav=document.getElementById('navbar');
+window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50)});
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
 </script>
 </body>
 </html>
