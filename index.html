@@ -106,9 +106,46 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
 .reveal.visible{opacity:1;transform:translateY(0)}
 @media(max-width:1024px){.projects-grid{grid-template-columns:1fr 1fr}.skills-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){nav{padding:16px 20px}.nav-links{display:none}#hero,section{padding:80px 20px}h1{letter-spacing:-2px}.projects-grid,.edu-grid,.skills-grid{grid-template-columns:1fr}.hero-stats{gap:24px}footer{padding:20px;flex-direction:column;gap:6px;text-align:center}.divider{margin:0 20px}.hero-inner{flex-direction:column!important}.hero-inner>div:last-child{order:-1;display:flex;justify-content:center;margin-bottom:32px}.hero-inner>div:last-child img{width:160px!important;height:160px!important}}
-.cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;mix-blend-mode:screen}
-.cursor-ring{width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s ease-out,width 0.3s,height 0.3s;opacity:0.5}
+.cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s,background 0.2s,border 0.2s;mix-blend-mode:screen}
+.cursor-ring{width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s ease-out,width 0.3s,height 0.3s,opacity 0.3s;opacity:0.5}
 @media(hover:none){.cursor,.cursor-ring{display:none}}
+
+/* ── CTA Button effects ── */
+.btn-cta{position:relative;overflow:hidden;cursor:none}
+.btn-cta::before{content:'';position:absolute;inset:0;background:rgba(0,229,195,0.0);transition:background 0.3s}
+.btn-cta:hover::before{background:rgba(0,229,195,0.08)}
+.btn-ripple{position:absolute;border-radius:50%;background:rgba(0,229,195,0.4);transform:scale(0);animation:rippleOut 0.65s ease-out forwards;pointer-events:none}
+@keyframes rippleOut{to{transform:scale(5);opacity:0}}
+
+/* Magnetic shift helper (applied via JS) */
+.btn-cta{transition:all 0.25s,transform 0.12s}
+
+/* ── Profile photo aura ── */
+.profile-photo-wrap{position:relative;display:inline-block;cursor:none}
+.profile-photo-wrap .aura-ring{position:absolute;border-radius:50%;pointer-events:none;opacity:0;transition:opacity 0.4s}
+.profile-photo-wrap .aura-ring-1{inset:-8px;border:1.5px solid rgba(0,229,195,0.7);animation:none}
+.profile-photo-wrap .aura-ring-2{inset:-18px;border:1px dashed rgba(0,229,195,0.35);animation:none}
+.profile-photo-wrap .aura-ring-3{inset:-32px;border:1px solid rgba(0,229,195,0.12);animation:none}
+.profile-photo-wrap:hover .aura-ring-1{opacity:1;animation:spinRing 4s linear infinite}
+.profile-photo-wrap:hover .aura-ring-2{opacity:1;animation:spinRing 8s linear reverse infinite}
+.profile-photo-wrap:hover .aura-ring-3{opacity:1;animation:spinRing 14s linear infinite}
+@keyframes spinRing{to{transform:rotate(360deg)}}
+.profile-photo-wrap .photo-glint{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 70%,rgba(0,229,195,0.18) 85%,transparent 100%);opacity:0;transition:opacity 0.4s;animation:none;pointer-events:none}
+.profile-photo-wrap:hover .photo-glint{opacity:1;animation:spinRing 3s linear infinite}
+.profile-photo-wrap .photo-label{position:absolute;bottom:-38px;left:50%;transform:translateX(-50%) translateY(8px);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);white-space:nowrap;opacity:0;transition:opacity 0.3s,transform 0.3s}
+.profile-photo-wrap:hover .photo-label{opacity:1;transform:translateX(-50%) translateY(0)}
+
+
+/* ── Custom cursor label (shown inside cursor ring on special hovers) ── */
+#cursor-label{position:fixed;z-index:10001;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--accent);pointer-events:none;transform:translate(-50%,-50%) scale(0.7);opacity:0;transition:opacity 0.2s,transform 0.25s;white-space:nowrap;text-align:center;line-height:1.4}
+
+/* cursor in CTA mode */
+body.cursor-cta .cursor{width:0!important;height:0!important;opacity:0}
+body.cursor-cta .cursor-ring{width:54px!important;height:54px!important;opacity:1!important;border-color:var(--accent)}
+body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%) scale(1)!important}
+
+/* cursor-photo: no special cursor change, keep normal */
+
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all 0.3s}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
@@ -119,11 +156,14 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
 .mobile-menu a:last-child{border-bottom:none}
 .mobile-menu a:hover{color:var(--accent)}
 .mobile-menu.open{display:flex}
-@media(max-width:640px){.hamburger{display:flex}}</style>
+@media(max-width:640px){.hamburger{display:flex}}
+</style>
 </head>
 <body>
   <div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div id="cursor-label"></div>
+
 <nav id="navbar">
   <a href="#hero" class="nav-logo">Y<span>.</span>Poojary</a>
   <ul class="nav-links">
@@ -144,6 +184,7 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
   <a href="#publications" onclick="closeMenu()">Research</a>
   <a href="#contact" onclick="closeMenu()">Contact</a>
 </div>
+
 <section id="hero">
   <div class="hero-glow"></div>
   <div class="hero-inner" style="display:flex;align-items:center;gap:60px;flex-wrap:wrap">
@@ -153,9 +194,9 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
       <h1>Yathish<br><em>Poojary</em></h1>
       <p class="hero-desc">Senior Software Engineer with 3.6+ years of experience building transformer-based multilingual translation systems for Indian languages. Proven expertise in Machine Learning, Machine Translation, Natural Language Processing, and Deep Learning — deploying GPU-accelerated models, integrating Flask API pipelines, and contributing to government-backed language technology initiatives.</p>
       <div class="hero-cta">
-        <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary">Get in touch</a>
-        <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
-        <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
+        <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary btn-cta" data-label="SAY HELLO">Get in touch</a>
+        <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost btn-cta" data-label="GITHUB">GitHub</a>
+        <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost btn-cta" data-label="LINKEDIN">LinkedIn</a>
       </div>
       <div class="hero-stats">
         <div class="stat"><div class="stat-num">3<span>.6+</span></div><div class="stat-label">Years Experience</div></div>
@@ -165,8 +206,15 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
       </div>
     </div>
 
-    <div style="flex-shrink:0">
-      <img src="./img/profile.jpeg" alt="Yathish Poojary" style="width:260px;height:260px;border-radius:50%;object-fit:cover;border:3px solid #00e5c3;box-shadow:0 0 40px rgba(0,229,195,0.15)"/>
+    <div style="flex-shrink:0;padding-bottom:40px">
+      <div class="profile-photo-wrap" id="profileWrap">
+        <div class="aura-ring aura-ring-1"></div>
+        <div class="aura-ring aura-ring-2"></div>
+        <div class="aura-ring aura-ring-3"></div>
+        <div class="photo-glint"></div>
+        <img src="./img/profile.jpeg" alt="Yathish Poojary" style="width:260px;height:260px;border-radius:50%;object-fit:cover;border:3px solid #00e5c3;box-shadow:0 0 40px rgba(0,229,195,0.15);display:block;position:relative;z-index:1"/>
+        <div class="photo-label">Yathish Poojary</div>
+      </div>
     </div>
 
   </div>
@@ -195,7 +243,6 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
       <div class="timeline-role">Senior Software Engineer</div>
       <div class="timeline-org">Manipal Institute of Technology, Udupi, Karnataka</div>
       <div class="timeline-body">
-
         <div style="margin-bottom:28px">
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">Multilingual Machine Translation Systems (Tamil&ndash;Kannada, Hindi&ndash;Kannada)</div>
           <ul>
@@ -205,7 +252,6 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
           </ul>
           <div style="font-family:'DM Mono',monospace;font-size:11px;color:#00e5c3;margin-top:10px">Python &middot; PyTorch &middot; HuggingFace Transformers &middot; Flask &middot; GPU</div>
         </div>
-
         <div style="margin-bottom:28px">
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">POS &amp; Chunk Tagging for Kannada</div>
           <ul>
@@ -214,7 +260,6 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
           </ul>
           <div style="font-family:'DM Mono',monospace;font-size:11px;color:#00e5c3;margin-top:10px">Python &middot; PyTorch &middot; Transformers &middot; IndicBERT &middot; XLM-RoBERTa</div>
         </div>
-
         <div style="margin-bottom:28px">
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">Kannada Sandhi Splitter <span style="font-family:'DM Mono',monospace;font-size:10px;color:#00e5c3;border:1px solid rgba(0,229,195,0.3);padding:2px 8px;border-radius:2px;margin-left:8px;font-weight:400">Patent Filed</span></div>
           <ul>
@@ -224,7 +269,6 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
           </ul>
           <div style="font-family:'DM Mono',monospace;font-size:11px;color:#00e5c3;margin-top:10px">Python &middot; NLP &middot; Rule-based + ML Methods</div>
         </div>
-
         <div>
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e8eaed;margin-bottom:10px">Other Contributions</div>
           <ul>
@@ -233,7 +277,6 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
             <li>Co-authored 11+ research publications presented at international conferences and an arXiv paper.</li>
           </ul>
         </div>
-
       </div>
     </div>
   </div>
@@ -242,7 +285,7 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
 <section id="projects">
   <div class="section-label">Open Source</div>
   <h2>GitHub <em>Projects</em></h2>
- <p style="font-size:16px;color:#6b7280;max-width:720px;margin-bottom:48px;line-height:1.8">A collection of projects built during my work at Manipal Institute of Technology as well as personal creations. The NLP, Machine Translation, Encoding & Converters, API development, and Kannada Dictionary Scraper were developed as part of research and production work at MIT. The remaining tools like games,  and general scrapers reflect my own explorations and interests outside of work.</p>
+  <p style="font-size:16px;color:#6b7280;max-width:720px;margin-bottom:48px;line-height:1.8">A collection of projects built during my work at Manipal Institute of Technology as well as personal creations. The NLP, Machine Translation, Encoding & Converters, API development, and Kannada Dictionary Scraper were developed as part of research and production work at MIT. The remaining tools like games, and general scrapers reflect my own explorations and interests outside of work.</p>
   <div class="project-category reveal">
     <div class="category-header"><span class="category-label">Machine Translation</span><div class="category-line"></div></div>
     <div class="projects-grid">
@@ -260,7 +303,6 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
       <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Kannada Sandhi Splitter Web</div><div class="project-desc">Web-based tool to split compound Sandhi words in Kannada into their original components using linguistic algorithms. Directly supports the filed patent.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-Sandhi-Splitter-Web" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
       <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Morph Tool</div><div class="project-desc">Linguistic morphological analyzer that identifies roots, prefixes, suffixes, and grammatical features of words across multiple Indian languages.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Morph-Tool" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
       <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Shallow Parser</div><div class="project-desc">Shallow parsing tool for chunking and identifying syntactic structure in sentences, useful for Indian language NLP preprocessing pipelines.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Shallow-Parser" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
-      
     </div>
   </div>
   <div class="project-category reveal">
@@ -301,7 +343,7 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
     <div class="patent-desc">A novel system for automatically identifying and splitting Sandhi using computational techniques, aimed at enhancing linguistic analysis and language processing tools for Indian languages. Assignee: Manipal Academy of Higher Education.</div>
   </div>
   <div class="pub-list">
-   <a href="https://arxiv.org/abs/2509.19941" target="_blank" class="pub-item reveal" style="text-decoration:none;color:inherit;cursor:pointer"><div class="pub-year">2025</div><div><div class="pub-title">CorIL: Towards Enriching Indian Language to Indian Language Parallel Corpora and Machine Translation Systems</div><div class="pub-venue">Soham Bhattacharjee, Yathish Poojary et al. &middot; arxiv.org/abs/2509.19941</div></div></a>
+    <a href="https://arxiv.org/abs/2509.19941" target="_blank" class="pub-item reveal" style="text-decoration:none;color:inherit;cursor:pointer"><div class="pub-year">2025</div><div><div class="pub-title">CorIL: Towards Enriching Indian Language to Indian Language Parallel Corpora and Machine Translation Systems</div><div class="pub-venue">Soham Bhattacharjee, Yathish Poojary et al. &middot; arxiv.org/abs/2509.19941</div></div></a>
     <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Evaluating Machine Translation Models: Kannada&ndash;Hindi and Hindi&ndash;Kannada Language Pair</div><div class="pub-venue">ICASET-2025, IFERP Academy, Chennai &middot; March 2025</div></div></div>
     <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Automated Categorization and Analysis of Kannada News Content using Transformers</div><div class="pub-venue">INCIP-2025, Manipal Institute of Technology &middot; Jan 2025</div></div></div>
     <div class="pub-item reveal"><div class="pub-year">2025</div><div><div class="pub-title">Translation Quality and Performance: Kannada&ndash;Tamil and Tamil&ndash;Kannada MT Models</div><div class="pub-venue">ICCIS 2025, BITS Pilani K.K. Birla Goa Campus &middot; Sept 2025</div></div></div>
@@ -338,7 +380,9 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
   <div class="footer-text">&copy; 2026 Yathish Poojary. Built with care.</div>
   <div class="footer-text">Udupi, Karnataka, India</div>
 </footer>
+
 <script>
+// ── Nav & mobile menu ──
 function toggleMenu(){
   document.getElementById('hamburger').classList.toggle('open');
   document.getElementById('mobileMenu').classList.toggle('open');
@@ -349,19 +393,90 @@ function closeMenu(){
 }
 var nav=document.getElementById('navbar');
 window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50)});
+
+// ── Reveal on scroll ──
 var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
 
-// Desktop cursor
+// ── Cursor core ──
 var cursor=document.getElementById('cursor');
 var ring=document.getElementById('cursorRing');
+var cursorLabel=document.getElementById('cursor-label');
 var mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
-function animRing(){rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
-animRing();
-document.querySelectorAll('a,button').forEach(function(el){el.addEventListener('mouseenter',function(){cursor.style.width='20px';cursor.style.height='20px'});el.addEventListener('mouseleave',function(){cursor.style.width='10px';cursor.style.height='10px'})});
 
-// Mobile touch cursor
+document.addEventListener('mousemove',function(e){
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+  cursorLabel.style.left=mx+'px';cursorLabel.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+// ── CTA Buttons: magnetic + ripple + cursor morph ──
+document.querySelectorAll('.btn-cta').forEach(function(btn){
+  var label = btn.getAttribute('data-label') || '';
+
+  btn.addEventListener('mouseenter',function(){
+    document.body.classList.add('cursor-cta');
+    cursorLabel.innerHTML=label;
+  });
+  btn.addEventListener('mouseleave',function(){
+    document.body.classList.remove('cursor-cta');
+    cursorLabel.innerHTML='';
+    btn.style.transform='';
+  });
+
+  // Magnetic pull
+  btn.addEventListener('mousemove',function(e){
+    var r=btn.getBoundingClientRect();
+    var cx=r.left+r.width/2, cy=r.top+r.height/2;
+    var dx=(e.clientX-cx)*0.22, dy=(e.clientY-cy)*0.22;
+    btn.style.transform='translate('+dx+'px,'+dy+'px)';
+  });
+
+  // Ripple on click
+  btn.addEventListener('click',function(e){
+    var r=btn.getBoundingClientRect();
+    var size=Math.max(r.width,r.height)*2;
+    var x=e.clientX-r.left-size/2;
+    var y=e.clientY-r.top-size/2;
+    var ripple=document.createElement('span');
+    ripple.className='btn-ripple';
+    ripple.style.cssText='width:'+size+'px;height:'+size+'px;left:'+x+'px;top:'+y+'px';
+    btn.appendChild(ripple);
+    setTimeout(function(){ripple.remove()},700);
+  });
+});
+
+// ── Profile photo: spinning aura + cursor morph ──
+var profileWrap=document.getElementById('profileWrap');
+if(profileWrap){
+  profileWrap.addEventListener('mouseenter',function(){
+    cursor.style.width='20px';cursor.style.height='20px';
+  });
+  profileWrap.addEventListener('mouseleave',function(){
+    cursor.style.width='10px';cursor.style.height='10px';
+  });
+}
+
+// ── Standard cursor size changes on all other links/buttons ──
+document.querySelectorAll('a:not(.btn-cta),button:not(.btn-cta)').forEach(function(el){
+  if(el.closest('#profileWrap')) return;
+  el.addEventListener('mouseenter',function(){
+    if(!document.body.classList.contains('cursor-cta')&&!document.body.classList.contains('cursor-photo')){
+      cursor.style.width='20px';cursor.style.height='20px';
+    }
+  });
+  el.addEventListener('mouseleave',function(){
+    cursor.style.width='10px';cursor.style.height='10px';
+  });
+});
+
+// ── Mobile touch cursor (unchanged) ──
 var touchCursor=null;
 document.addEventListener('touchstart',function(e){
   var t=e.touches[0];
