@@ -32,7 +32,7 @@ h1 em{font-style:italic;font-family:'Newsreader',serif;color:var(--accent);font-
 .stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:36px;line-height:1}
 .stat-num span{color:var(--accent)}
 .stat-label{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-top:4px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:1;transform:translateY(0)}to{opacity:1;transform:translateY(0)}}
 .btn{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.05em;padding:13px 26px;border-radius:4px;text-decoration:none;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px}
 .btn-primary{background:var(--accent);color:#000;border:1px solid var(--accent)}
 .btn-primary:hover{background:transparent;color:var(--accent)}
@@ -77,6 +77,8 @@ h2 em{font-style:italic;font-family:'Newsreader',serif;color:var(--muted);font-w
 .project-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;letter-spacing:-0.2px;margin-bottom:8px}
 .project-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
 .project-link{margin-top:16px}
+/* ── Badge for accuracy/score highlights ── */
+.project-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;border:1px solid rgba(0,229,195,0.35);color:var(--accent);margin-bottom:10px}
 .btn-sm{font-family:'DM Mono',monospace;font-size:11px;padding:6px 14px;border-radius:3px;text-decoration:none;border:1px solid var(--border);color:var(--muted);transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
 .btn-sm:hover{border-color:var(--accent);color:var(--accent)}
 .pub-list{display:flex;flex-direction:column;gap:16px}
@@ -102,25 +104,19 @@ h2 em{font-style:italic;font-family:'Newsreader',serif;color:var(--muted);font-w
 .contact-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify-content:space-between;align-items:center}
 .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s}
+.reveal{opacity:1;transform:translateY(0);transition:opacity 0.6s,transform 0.6s}
 .reveal.visible{opacity:1;transform:translateY(0)}
 @media(max-width:1024px){.projects-grid{grid-template-columns:1fr 1fr}.skills-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){nav{padding:16px 20px}.nav-links{display:none}#hero,section{padding:80px 20px}h1{letter-spacing:-2px}.projects-grid,.edu-grid,.skills-grid{grid-template-columns:1fr}.hero-stats{gap:24px}footer{padding:20px;flex-direction:column;gap:6px;text-align:center}.divider{margin:0 20px}.hero-inner{flex-direction:column!important}.hero-inner>div:last-child{order:-1;display:flex;justify-content:center;margin-bottom:32px}.hero-inner>div:last-child img{width:160px!important;height:160px!important}}
 .cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s,background 0.2s,border 0.2s;mix-blend-mode:screen}
 .cursor-ring{width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s ease-out,width 0.3s,height 0.3s,opacity 0.3s;opacity:0.5}
 @media(hover:none){.cursor,.cursor-ring{display:none}}
-
-/* ── CTA Button effects ── */
 .btn-cta{position:relative;overflow:hidden;cursor:none}
 .btn-cta::before{content:'';position:absolute;inset:0;background:rgba(0,229,195,0.0);transition:background 0.3s}
 .btn-cta:hover::before{background:rgba(0,229,195,0.08)}
 .btn-ripple{position:absolute;border-radius:50%;background:rgba(0,229,195,0.4);transform:scale(0);animation:rippleOut 0.65s ease-out forwards;pointer-events:none}
 @keyframes rippleOut{to{transform:scale(5);opacity:0}}
-
-/* Magnetic shift helper (applied via JS) */
 .btn-cta{transition:all 0.25s,transform 0.12s}
-
-/* ── Profile photo aura ── */
 .profile-photo-wrap{position:relative;display:inline-block;cursor:none}
 .profile-photo-wrap .aura-ring{position:absolute;border-radius:50%;pointer-events:none;opacity:0;transition:opacity 0.4s}
 .profile-photo-wrap .aura-ring-1{inset:-8px;border:1.5px solid rgba(0,229,195,0.7);animation:none}
@@ -134,18 +130,10 @@ footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify
 .profile-photo-wrap:hover .photo-glint{opacity:1;animation:spinRing 3s linear infinite}
 .profile-photo-wrap .photo-label{position:absolute;bottom:-38px;left:50%;transform:translateX(-50%) translateY(8px);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);white-space:nowrap;opacity:0;transition:opacity 0.3s,transform 0.3s}
 .profile-photo-wrap:hover .photo-label{opacity:1;transform:translateX(-50%) translateY(0)}
-
-
-/* ── Custom cursor label (shown inside cursor ring on special hovers) ── */
 #cursor-label{position:fixed;z-index:10001;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--accent);pointer-events:none;transform:translate(-50%,-50%) scale(0.7);opacity:0;transition:opacity 0.2s,transform 0.25s;white-space:nowrap;text-align:center;line-height:1.4}
-
-/* cursor in CTA mode */
 body.cursor-cta .cursor{width:0!important;height:0!important;opacity:0}
 body.cursor-cta .cursor-ring{width:54px!important;height:54px!important;opacity:1!important;border-color:var(--accent)}
 body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%) scale(1)!important}
-
-/* cursor-photo: no special cursor change, keep normal */
-
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all 0.3s}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
@@ -192,9 +180,9 @@ body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%)
     <div style="flex:1;min-width:280px">
       <div class="hero-tag">Senior Software Engineer &middot; ML &amp; NLP</div>
       <h1>Yathish<br><em>Poojary</em></h1>
-      <p class="hero-desc">Senior Software Engineer with 3.6+ years of experience building transformer-based multilingual translation systems for Indian languages. Proven expertise in Machine Learning, Machine Translation, Natural Language Processing, and Deep Learning — deploying GPU-accelerated models, integrating Flask API pipelines, and contributing to government-backed language technology initiatives.</p>
+      <p class="hero-desc">Senior Software Engineer with 3.6+ years of experience building transformer-based multilingual translation systems for Indian languages. Proven expertise in Machine Learning, Machine Translation, Natural Language Processing, and Deep Learning &mdash; deploying GPU-accelerated models, integrating Flask API pipelines, and contributing to government-backed language technology initiatives.</p>
       <div class="hero-cta">
-        <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary btn-cta" data-label="SAY HELLO">Get in touch</a>
+        <a href="/cdn-cgi/l/email-protection#e990889d81809a818488839c9bc7d8d0d0d1a98e84888085c78a8684" class="btn btn-primary btn-cta" data-label="SAY HELLO">Get in touch</a>
         <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost btn-cta" data-label="GITHUB">GitHub</a>
         <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost btn-cta" data-label="LINKEDIN">LinkedIn</a>
       </div>
@@ -202,7 +190,7 @@ body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%)
         <div class="stat"><div class="stat-num">3<span>.6+</span></div><div class="stat-label">Years Experience</div></div>
         <div class="stat"><div class="stat-num">11<span>+</span></div><div class="stat-label">Publications</div></div>
         <div class="stat"><div class="stat-num">1</div><div class="stat-label">Patent Filed</div></div>
-        <div class="stat"><div class="stat-num">20<span>+</span></div><div class="stat-label">GitHub Repos</div></div>
+        <div class="stat"><div class="stat-num">25<span>+</span></div><div class="stat-label">GitHub Repos</div></div>
       </div>
     </div>
 
@@ -285,31 +273,74 @@ body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%)
 <section id="projects">
   <div class="section-label">Open Source</div>
   <h2>GitHub <em>Projects</em></h2>
-  <p style="font-size:16px;color:#6b7280;max-width:720px;margin-bottom:48px;line-height:1.8">A collection of projects built during my work at Manipal Institute of Technology as well as personal creations. The NLP, Machine Translation, Encoding & Converters, API development, and Kannada Dictionary Scraper were developed as part of research and production work at MIT. The remaining tools like games, and general scrapers reflect my own explorations and interests outside of work.</p>
+  <p style="font-size:16px;color:#6b7280;max-width:720px;margin-bottom:48px;line-height:1.8">A collection of projects built during my work at Manipal Institute of Technology as well as personal creations. The NLP, Machine Translation, Encoding &amp; Converters, API development, and Kannada Dictionary Scraper were developed as part of research and production work at MIT. The remaining tools like games, and general scrapers reflect my own explorations and interests outside of work.</p>
   <div class="project-category reveal">
     <div class="category-header"><span class="category-label">Machine Translation</span><div class="category-line"></div></div>
     <div class="projects-grid">
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook</div><div class="project-title">Neural Machine Translation &mdash; Hindi</div><div class="project-desc">Deep learning model for bidirectional Hindi translation using neural networks, offering accurate and context-aware translations for Hindi and other languages.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Neural-Machine-Translation-Hindi" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook &middot; Shell</div><div class="project-title">Neural Machine Translation &mdash; Tamil</div><div class="project-desc">Deep learning model for Tamil translation using IndicTrans training pipeline with BPE tokenization, inference scripts, and Flask interface.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Neural-Machine-Translation-Tamil" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-badge">Kan&rarr;Hin: BLEU 22.76 &middot; ChrF 49.37 &middot; COMET 0.754 &nbsp;|&nbsp; Hin&rarr;Kan: BLEU 16.08 &middot; ChrF 53.85 &middot; COMET 0.8472</div><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook</div><div class="project-title">Neural Machine Translation &mdash; Hindi</div><div class="project-desc">Deep learning model for bidirectional Hindi translation using neural networks, offering accurate and context-aware translations for Hindi and other languages.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Neural-Machine-Translation-Hindi" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-badge">Kan&rarr;Tam: BLEU 11.3 &middot; ChrF 48.00 &middot; COMET 0.8353 &nbsp;|&nbsp; Tam&rarr;Kan: BLEU 11.4 &middot; ChrF 45.9 &middot; COMET 0.7917</div><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook &middot; Shell</div><div class="project-title">Neural Machine Translation &mdash; Tamil</div><div class="project-desc">Deep learning model for Tamil translation using IndicTrans training pipeline with BPE tokenization, inference scripts, and Flask interface.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Neural-Machine-Translation-Tamil" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
       <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Language Translation Extensions</div><div class="project-desc">Browser or application extensions for language translation, enabling real-time translation capabilities for Indian language content across platforms.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Language-Translation-Extensions" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
       <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Google Cloud Translate &mdash; Batch Translation</div><div class="project-desc">Script for batch text translation using the Google Cloud Translate API, enabling efficient bulk translation of large datasets for NLP workflows.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Google-Cloud-Translate-API-Script-for-Batch-Text-Translation" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
       <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Batch Translation &mdash; Microsoft Translator API</div><div class="project-desc">Batch text translation tool using the Microsoft Translator API, designed for large-scale translation tasks in multilingual NLP research pipelines.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Batch-Text-Translation-Using-Microsoft-Translator-API" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
     </div>
   </div>
+
+  <!-- ── NLP Tools ── -->
   <div class="project-category reveal">
     <div class="category-header"><span class="category-label">NLP Tools</span><div class="category-line"></div></div>
     <div class="projects-grid">
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook</div><div class="project-title">BERT POS Tagger</div><div class="project-desc">Part-of-speech tagging tool using BERT to accurately predict grammatical categories of each word in a sentence using pre-trained BERT representations.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/BERT-POSTAGGER" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Kannada Sandhi Splitter Web</div><div class="project-desc">Web-based tool to split compound Sandhi words in Kannada into their original components using linguistic algorithms. Directly supports the filed patent.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-Sandhi-Splitter-Web" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Morph Tool</div><div class="project-desc">Linguistic morphological analyzer that identifies roots, prefixes, suffixes, and grammatical features of words across multiple Indian languages.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Morph-Tool" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Shallow Parser</div><div class="project-desc">Shallow parsing tool for chunking and identifying syntactic structure in sentences, useful for Indian language NLP preprocessing pipelines.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Shallow-Parser" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+
+      <!-- existing 4 cards -->
+      <div class="project-card"><div class="project-badge">Accuracy 92.54%</div><div class="project-lang"><span class="lang-dot"></span>Python &middot; Jupyter Notebook</div><div class="project-title">BERT POS Tagger</div><div class="project-desc">Part-of-speech tagging tool using BERT to accurately predict grammatical categories of each word in a sentence using pre-trained BERT representations.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/BERT-POSTAGGER" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+
+      <!-- ── NEW CARD: Kannada Chunk Tagging ── -->
+      <div class="project-card">
+        <div class="project-badge">Accuracy 92.54%</div>
+        <div class="project-lang"><span class="lang-dot"></span>Python &middot; XLM-RoBERTa</div>
+        <div class="project-title">Kannada Chunk Tagging</div>
+        <div class="project-desc">Chunk tagging system for Kannada using XLM-RoBERTa, identifying syntactic phrase boundaries (NP, VP, etc.) in Kannada text. Research published at CSCT 2025, NIT Sikkim.</div>
+        <div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-Chunk-Tagging-using-XLM-RoBERTa" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div>
+      </div>
+
+      <div class="project-card"><div class="project-badge">Accuracy 100% &middot; Patent No. 202341057920</div><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Kannada Sandhi Splitter</div><div class="project-desc">Web-based tool to split compound Sandhi words in Kannada into their original components using linguistic algorithms. Directly supports the filed patent.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-Sandhi-Splitter-Web" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-badge">Accuracy 92.54%</div><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Morph Tool</div><div class="project-desc">Linguistic morphological analyzer that identifies roots, prefixes, suffixes, and grammatical features of words across multiple Indian languages.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Morph-Tool" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-badge">Accuracy 92.54%</div><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Shallow Parser</div><div class="project-desc">Shallow parsing tool for chunking and identifying syntactic structure in sentences, useful for Indian language NLP preprocessing pipelines.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Shallow-Parser" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+
+      <!-- ── NEW CARD 1: Politeness Classification ── -->
+      <div class="project-card">
+        <div class="project-badge">87.7% accuracy &middot; 1.39M samples</div>
+        <div class="project-lang"><span class="lang-dot"></span>Python &middot; HuggingFace</div>
+        <div class="project-title">Politeness Classification &mdash; DistilBERT</div>
+        <div class="project-desc">Fine-tuned DistilBERT for 10-level politeness classification (P0&ndash;P9) on a large-scale annotated corpus of 1.39M samples. Applications in conversational AI, customer support, and social media moderation.</div>
+        <div class="project-link"><a href="https://github.com/YathishPoojary1998/Politeness-Classification-using-DistilBERT" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div>
+      </div>
+
+      <!-- ── NEW CARD 2: Kannada News Headline Generation ── -->
+      <div class="project-card">
+        <div class="project-badge">BLEU 63.0 &middot; 132K samples</div>
+        <div class="project-lang"><span class="lang-dot"></span>Python &middot; mT5 &middot; Seq2Seq</div>
+        <div class="project-title">Kannada News Headline Generation &mdash; mT5</div>
+        <div class="project-desc">Abstractive headline generation for Kannada news articles using fine-tuned mT5-large. Trained on 132K IndicNLG-style samples with beam search decoding, achieving a BLEU score of 63.0 for a low-resource language.</div>
+        <div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-News-Headline-Generation-using-mT5" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div>
+      </div>
+
+      <!-- ── NEW CARD 3: Kannada Sentiment Analysis ── -->
+      <div class="project-card">
+        <div class="project-badge">71.9% accuracy &middot; XLM-RoBERTa</div>
+        <div class="project-lang"><span class="lang-dot"></span>Python &middot; Transformers</div>
+        <div class="project-title">Kannada Sentiment Analysis &mdash; IndicBERT &amp; XLM-RoBERTa</div>
+        <div class="project-desc">Transfer learning approach for Kannada sentiment analysis comparing IndicBERT and XLM-RoBERTa-base. Fine-tuned for multi-class sentiment classification, with findings published at ICONFEST 2025.</div>
+        <div class="project-link"><a href="https://github.com/YathishPoojary1998/Kannada-Sentiment-Analysis-using-IndicBERT-and-XLM-RoBERTa" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div>
+      </div>
+
     </div>
   </div>
+
   <div class="project-category reveal">
     <div class="category-header"><span class="category-label">Encoding &amp; Conversion Tools</span><div class="category-line"></div></div>
     <div class="projects-grid">
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Shreelipi to Unicode Kannada Converter</div><div class="project-desc">Converts Kannada text from legacy Shreelipi font encoding to Unicode, standardizing text for modern NLP pipelines and digital applications.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Shreelipi-to-Unicode-Kannada-Converter" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
-      <div class="project-card"><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Unicode Kannada to Shreelipi Converter</div><div class="project-desc">Reverse conversion tool that converts Unicode Kannada text back to Shreelipi font encoding, supporting legacy document workflows and archival systems.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Unicode-Kannada-to-Shreelipi-Convertor" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-badge">Accuracy 100%</div><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Shreelipi to Unicode Kannada Converter</div><div class="project-desc">Converts Kannada text from legacy Shreelipi font encoding to Unicode, standardizing text for modern NLP pipelines and digital applications.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Shreelipi-to-Unicode-Kannada-Converter" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
+      <div class="project-card"><div class="project-badge">Accuracy 100%</div><div class="project-lang"><span class="lang-dot"></span>Python</div><div class="project-title">Unicode Kannada to Shreelipi Converter</div><div class="project-desc">Reverse conversion tool that converts Unicode Kannada text back to Shreelipi font encoding, supporting legacy document workflows and archival systems.</div><div class="project-link"><a href="https://github.com/YathishPoojary1998/Unicode-Kannada-to-Shreelipi-Convertor" target="_blank" class="btn-sm">View on GitHub &#8599;</a></div></div>
     </div>
   </div>
   <div class="project-category reveal">
@@ -369,7 +400,7 @@ body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%)
 <section id="contact">
   <div class="section-label" style="justify-content:center">Let's connect</div>
   <h2 style="margin-bottom:0">Have a project<br><em>in mind?</em></h2>
-  <div><a href="mailto:yathishmajur.1998@gmail.com" class="contact-email">yathishmajur.1998@gmail.com</a></div>
+  <div><a href="/cdn-cgi/l/email-protection#5c253d2834352f34313d36292e726d6565641c3b313d3530723f3331" class="contact-email"><span class="__cf_email__" data-cfemail="f0899184989983989d919a8582dec1c9c9c8b0979d91999cde939f9d">[email&#160;protected]</span></a></div>
   <div class="contact-links">
     <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
     <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
@@ -381,8 +412,7 @@ body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%)
   <div class="footer-text">Udupi, Karnataka, India</div>
 </footer>
 
-<script>
-// ── Nav & mobile menu ──
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleMenu(){
   document.getElementById('hamburger').classList.toggle('open');
   document.getElementById('mobileMenu').classList.toggle('open');
@@ -393,17 +423,12 @@ function closeMenu(){
 }
 var nav=document.getElementById('navbar');
 window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50)});
-
-// ── Reveal on scroll ──
 var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
-
-// ── Cursor core ──
 var cursor=document.getElementById('cursor');
 var ring=document.getElementById('cursorRing');
 var cursorLabel=document.getElementById('cursor-label');
 var mx=0,my=0,rx=0,ry=0;
-
 document.addEventListener('mousemove',function(e){
   mx=e.clientX;my=e.clientY;
   cursor.style.left=mx+'px';cursor.style.top=my+'px';
@@ -415,11 +440,8 @@ function animRing(){
   requestAnimationFrame(animRing);
 }
 animRing();
-
-// ── CTA Buttons: magnetic + ripple + cursor morph ──
 document.querySelectorAll('.btn-cta').forEach(function(btn){
   var label = btn.getAttribute('data-label') || '';
-
   btn.addEventListener('mouseenter',function(){
     document.body.classList.add('cursor-cta');
     cursorLabel.innerHTML=label;
@@ -429,16 +451,12 @@ document.querySelectorAll('.btn-cta').forEach(function(btn){
     cursorLabel.innerHTML='';
     btn.style.transform='';
   });
-
-  // Magnetic pull
   btn.addEventListener('mousemove',function(e){
     var r=btn.getBoundingClientRect();
     var cx=r.left+r.width/2, cy=r.top+r.height/2;
     var dx=(e.clientX-cx)*0.22, dy=(e.clientY-cy)*0.22;
     btn.style.transform='translate('+dx+'px,'+dy+'px)';
   });
-
-  // Ripple on click
   btn.addEventListener('click',function(e){
     var r=btn.getBoundingClientRect();
     var size=Math.max(r.width,r.height)*2;
@@ -451,8 +469,6 @@ document.querySelectorAll('.btn-cta').forEach(function(btn){
     setTimeout(function(){ripple.remove()},700);
   });
 });
-
-// ── Profile photo: spinning aura + cursor morph ──
 var profileWrap=document.getElementById('profileWrap');
 if(profileWrap){
   profileWrap.addEventListener('mouseenter',function(){
@@ -462,8 +478,6 @@ if(profileWrap){
     cursor.style.width='10px';cursor.style.height='10px';
   });
 }
-
-// ── Standard cursor size changes on all other links/buttons ──
 document.querySelectorAll('a:not(.btn-cta),button:not(.btn-cta)').forEach(function(el){
   if(el.closest('#profileWrap')) return;
   el.addEventListener('mouseenter',function(){
@@ -475,8 +489,6 @@ document.querySelectorAll('a:not(.btn-cta),button:not(.btn-cta)').forEach(functi
     cursor.style.width='10px';cursor.style.height='10px';
   });
 });
-
-// ── Mobile touch cursor (unchanged) ──
 var touchCursor=null;
 document.addEventListener('touchstart',function(e){
   var t=e.touches[0];
@@ -497,28 +509,13 @@ document.addEventListener('touchstart',function(e){
   touchRing.style.opacity='0.5';
   clearTimeout(touchTimer);
 },{passive:true});
-
 var trx=0,try_=0,tdx=0,tdy=0,touchTimer;
 document.addEventListener('touchmove',function(e){
   var t=e.touches[0];
   tdx=t.clientX;tdy=t.clientY;
   if(touchCursor){touchCursor.style.left=tdx+'px';touchCursor.style.top=tdy+'px'}
 },{passive:true});
-
 function animTouchRing(){
   var tr=document.getElementById('touchRing');
   if(tr){trx+=(tdx-trx)*0.14;try_+=(tdy-try_)*0.14;tr.style.left=trx+'px';tr.style.top=try_+'px'}
-  requestAnimationFrame(animTouchRing);
-}
-animTouchRing();
-
-document.addEventListener('touchend',function(){
-  touchTimer=setTimeout(function(){
-    if(touchCursor)touchCursor.style.opacity='0';
-    var tr=document.getElementById('touchRing');
-    if(tr)tr.style.opacity='0';
-  },800);
-});
-</script>
-</body>
-</html>
+  requ
