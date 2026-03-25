@@ -400,7 +400,7 @@ body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%)
 <section id="contact">
   <div class="section-label" style="justify-content:center">Let's connect</div>
   <h2 style="margin-bottom:0">Have a project<br><em>in mind?</em></h2>
-  <div><a href="/cdn-cgi/l/email-protection#5c253d2834352f34313d36292e726d6565641c3b313d3530723f3331" class="contact-email"><span class="__cf_email__" data-cfemail="f0899184989983989d919a8582dec1c9c9c8b0979d91999cde939f9d">[email&#160;protected]</span></a></div>
+    <div><a href="mailto:yathishmajur.1998@gmail.com" class="contact-email">yathishmajur.1998@gmail.com</a></div>
   <div class="contact-links">
     <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost">GitHub</a>
     <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost">LinkedIn</a>
@@ -518,4 +518,17 @@ document.addEventListener('touchmove',function(e){
 function animTouchRing(){
   var tr=document.getElementById('touchRing');
   if(tr){trx+=(tdx-trx)*0.14;try_+=(tdy-try_)*0.14;tr.style.left=trx+'px';tr.style.top=try_+'px'}
-  requ
+  requestAnimationFrame(animTouchRing);
+}
+animTouchRing();
+
+document.addEventListener('touchend',function(){
+  touchTimer=setTimeout(function(){
+    if(touchCursor)touchCursor.style.opacity='0';
+    var tr=document.getElementById('touchRing');
+    if(tr)tr.style.opacity='0';
+  },800);
+});
+</script>
+</body>
+</html>
