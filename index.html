@@ -187,14 +187,14 @@ body.cursor-cta #cursor-label{opacity:1!important;transform:translate(-50%,-50%)
     <div style="flex:1;min-width:280px">
       <div class="hero-tag">Senior Software Engineer &middot; ML &amp; NLP</div>
       <h1>Yathish<br><em>Poojary</em></h1>
-      <p class="hero-desc">Senior Software Engineer with 3.6+ years of experience building transformer-based multilingual translation systems for Indian languages. Proven expertise in Machine Learning, Machine Translation, Natural Language Processing, and Deep Learning &mdash; deploying GPU-accelerated models, integrating Flask API pipelines, and contributing to government-backed language technology initiatives.</p>
+      <p class="hero-desc">Senior Software Engineer with <span id="exp-years-desc"></span> years of experience building transformer-based multilingual translation systems for Indian languages. Proven expertise in Machine Learning, Machine Translation, Natural Language Processing, and Deep Learning &mdash; deploying GPU-accelerated models, integrating Flask API pipelines, and contributing to government-backed language technology initiatives.</p>
       <div class="hero-cta">
         <a href="mailto:yathishmajur.1998@gmail.com" class="btn btn-primary btn-cta" data-label="SAY HELLO">Get in touch</a>
         <a href="https://github.com/YathishPoojary1998" target="_blank" class="btn btn-ghost btn-cta" data-label="GITHUB">GitHub</a>
         <a href="https://www.linkedin.com/in/yathish-poojary-b254341a8" target="_blank" class="btn btn-ghost btn-cta" data-label="LINKEDIN">LinkedIn</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><div class="stat-num">3<span>.6+</span></div><div class="stat-label">Years Experience</div></div>
+        <div class="stat"><div class="stat-num" id="exp-years-stat"></div><div class="stat-label">Years Experience</div></div>
         <div class="stat"><div class="stat-num">11<span>+</span></div><div class="stat-label">Publications</div></div>
         <div class="stat"><div class="stat-num">1</div><div class="stat-label">Patent Filed</div></div>
         <div class="stat"><div class="stat-num">25<span>+</span></div><div class="stat-label">GitHub Repos</div></div>
@@ -560,6 +560,29 @@ document.addEventListener('touchend',function(){
     if(tr)tr.style.opacity='0';
   },800);
 });
+
+(function(){
+  var startDate = new Date('2022-09-01');
+  var now = new Date();
+  var diffMs = now - startDate;
+  var diffYears = diffMs / (1000 * 60 * 60 * 24 * 365.25);
+  var years = Math.floor(diffYears * 10) / 10; // 1 decimal, floored
+
+  var intPart = Math.floor(years);
+  var decPart = (years - intPart).toFixed(1).slice(1); // e.g. ".7"
+
+  // Stats counter (styled like "3<span>.7+</span>")
+  var statEl = document.getElementById('exp-years-stat');
+  if(statEl){
+    statEl.innerHTML = intPart + '<span>' + decPart + '+</span>';
+  }
+
+  // Hero description inline text (plain "3.7+")
+  var descEl = document.getElementById('exp-years-desc');
+  if(descEl){
+    descEl.textContent = years.toFixed(1) + '+';
+  }
+})();
 </script>
 </body>
 </html>
