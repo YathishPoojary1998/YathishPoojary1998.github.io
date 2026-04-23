@@ -563,25 +563,25 @@ document.addEventListener('touchend',function(){
 });
 
 (function(){
-  var startDate = new Date('2022-09-01');
+  var startDate = new Date('2022-09-15');
   var now = new Date();
-  var diffMs = now - startDate;
-  var diffYears = diffMs / (1000 * 60 * 60 * 24 * 365.25);
-  var years = Math.floor(diffYears * 10) / 10; // 1 decimal, floored
 
-  var intPart = Math.floor(years);
-  var decPart = (years - intPart).toFixed(1).slice(1); // e.g. ".7"
+  var totalMonths = (now.getFullYear() - startDate.getFullYear()) * 12 
+                  + (now.getMonth() - startDate.getMonth());
 
-  // Stats counter (styled like "3<span>.7+</span>")
+  var years = Math.floor(totalMonths / 12);
+  var months = totalMonths % 12;
+
+  // Stats counter: shows "3<span>.7+</span>"
   var statEl = document.getElementById('exp-years-stat');
   if(statEl){
-    statEl.innerHTML = intPart + '<span>' + decPart + '+</span>';
+    statEl.innerHTML = years + '<span>.' + months + '+</span>';
   }
 
-  // Hero description inline text (plain "3.7+")
+  // Hero description inline text: shows "3.7+"
   var descEl = document.getElementById('exp-years-desc');
   if(descEl){
-    descEl.textContent = years.toFixed(1) + '+';
+    descEl.textContent = years + '.' + months + '+';
   }
 })();
 </script>
